@@ -9,7 +9,7 @@ let plazoCalculado = 0;
 let creditoAprobado = false;
 
 function ocultarSecciones() {
-  let secciones = ["parametros", "clientes"];
+  let secciones = ["parametros", "clientes", "credito"];
   for (let i = 0; i < secciones.length; i++) {
     document.getElementById(secciones[i]).classList.remove("activa");
   }
