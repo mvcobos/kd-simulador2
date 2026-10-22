@@ -128,6 +128,7 @@ function calcularCredito() {
   let componente = document.getElementById("resultadoCredito");
 
   if (clienteSeleccionado == null) {
+    componente.className = "";
     componente.innerHTML = "<p>Primero busque un cliente</p>";
     return;
   }
@@ -153,8 +154,10 @@ function calcularCredito() {
   contenido += "Cuota mensual: " + cuota + "<br>";
   if (aprobado == true) {
     contenido += "Resultado: APROBADO";
+    componente.className = "aprobado";
   } else {
     contenido += "Resultado: RECHAZADO";
+    componente.className = "rechazado";
   }
   componente.innerHTML = contenido;
 }
