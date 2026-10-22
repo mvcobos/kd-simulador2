@@ -148,13 +148,13 @@ function calcularCredito() {
   creditoAprobado = aprobado;
 
   let contenido = "";
-  contenido += "<p>Capacidad de pago: " + capacidad + "</p>";
-  contenido += "<p>Total a pagar: " + total + "</p>";
-  contenido += "<p>Cuota mensual: " + cuota + "</p>";
+  contenido += "Capacidad de pago: " + capacidad + "<br>";
+  contenido += "Total a pagar: " + total + "<br>";
+  contenido += "Cuota mensual: " + cuota + "<br>";
   if (aprobado == true) {
-    contenido += "<p>Resultado: CREDITO APROBADO</p>";
+    contenido += "Resultado: APROBADO";
   } else {
-    contenido += "<p>Resultado: CREDITO RECHAZADO</p>";
+    contenido += "Resultado: RECHAZADO";
   }
   componente.innerHTML = contenido;
 }
