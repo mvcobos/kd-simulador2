@@ -113,7 +113,8 @@ function buscarClienteCredito() {
     clienteSeleccionado = cliente;
     let contenido = "";
     contenido += "<p>Cédula: " + cliente.cedula + "</p>";
-    contenido += "<p>Nombre: " + cliente.nombre + " " + cliente.apellido + "</p>";
+    contenido += "<p>Nombre: " + cliente.nombre + "</p>";
+    contenido += "<p>Apellido: " + cliente.apellido + "</p>";
     contenido += "<p>Ingresos: " + cliente.ingresos + "</p>";
     contenido += "<p>Egresos: " + cliente.egresos + "</p>";
     componente.innerHTML = contenido;
