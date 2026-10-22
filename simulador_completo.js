@@ -103,3 +103,22 @@ function pintarClientes() {
   }
   tabla.innerHTML = contenido;
 }
+
+function buscarClienteCredito() {
+  let cedula = recuperaraTexto("buscarCedulaCredito");
+  let cliente = buscarCliente(cedula);
+  let componente = document.getElementById("datosClienteCredito");
+
+  if (cliente != null) {
+    clienteSeleccionado = cliente;
+    let contenido = "";
+    contenido += "<p>Cédula: " + cliente.cedula + "</p>";
+    contenido += "<p>Nombre: " + cliente.nombre + " " + cliente.apellido + "</p>";
+    contenido += "<p>Ingresos: " + cliente.ingresos + "</p>";
+    contenido += "<p>Egresos: " + cliente.egresos + "</p>";
+    componente.innerHTML = contenido;
+  } else {
+    clienteSeleccionado = null;
+    componente.innerHTML = "<p>Cliente no encontrado</p>";
+  }
+}
