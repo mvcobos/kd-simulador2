@@ -30,3 +30,76 @@ function guardarTasa() {
     document.getElementById("mensajeTasa").innerText = "La tasa debe estar entre 10% y 20%";
   }
 }
+
+function guardarCliente() {
+  let cedula = recuperaraTexto("txtCedula");
+  let nombre = recuperaraTexto("txtNombre");
+  let apellido = recuperaraTexto("txtApellido");
+  let ingresos = recuperarFloat("txtIngresos");
+  let egresos = recuperarFloat("txtEgresos");
+
+  let clienteExistente = buscarCliente(cedula);
+
+  if (clienteExistente == null) {
+    let cliente = {};
+    cliente.cedula = cedula;
+    cliente.nombre = nombre;
+    cliente.apellido = apellido;
+    cliente.ingresos = ingresos;
+    cliente.egresos = egresos;
+    clientes.push(cliente);
+  } else {
+    clienteExistente.nombre = nombre;
+    clienteExistente.apellido = apellido;
+    clienteExistente.ingresos = ingresos;
+    clienteExistente.egresos = egresos;
+  }
+
+  pintarClientes();
+}
+
+function buscarCliente(cedula) {
+  for (let i = 0; i < clientes.length; i++) {
+    if (clientes[i].cedula == cedula) {
+      return clientes[i];
+    }
+  }
+  return null;
+}
+
+function seleccionarCliente(cedula) {
+  clienteSeleccionado = buscarCliente(cedula);
+  if (clienteSeleccionado != null) {
+    mostrarTextoEnCaja("txtCedula", clienteSeleccionado.cedula);
+    mostrarTextoEnCaja("txtNombre", clienteSeleccionado.nombre);
+    mostrarTextoEnCaja("txtApellido", clienteSeleccionado.apellido);
+    mostrarTextoEnCaja("txtIngresos", clienteSeleccionado.ingresos);
+    mostrarTextoEnCaja("txtEgresos", clienteSeleccionado.egresos);
+  }
+}
+
+function limpiar() {
+  mostrarTextoEnCaja("txtCedula", "");
+  mostrarTextoEnCaja("txtNombre", "");
+  mostrarTextoEnCaja("txtApellido", "");
+  mostrarTextoEnCaja("txtIngresos", "");
+  mostrarTextoEnCaja("txtEgresos", "");
+  clienteSeleccionado = null;
+}
+
+function pintarClientes() {
+  let tabla = document.getElementById("tablaClientes");
+  let contenido = "";
+  for (let i = 0; i < clientes.length; i++) {
+    let cliente = clientes[i];
+    contenido += "<tr>";
+    contenido += "<td>" + cliente.cedula + "</td>";
+    contenido += "<td>" + cliente.nombre + "</td>";
+    contenido += "<td>" + cliente.apellido + "</td>";
+    contenido += "<td>" + cliente.ingresos + "</td>";
+    contenido += "<td>" + cliente.egresos + "</td>";
+    contenido += `<td><button onclick="seleccionarCliente('` + cliente.cedula + `')">Actualizar</button></td>`;
+    contenido += "</tr>";
+  }
+  tabla.innerHTML = contenido;
+}
