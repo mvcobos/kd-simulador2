@@ -123,3 +123,38 @@ function buscarClienteCredito() {
     componente.innerHTML = "<p>Cliente no encontrado</p>";
   }
 }
+
+function calcularCredito() {
+  let componente = document.getElementById("resultadoCredito");
+
+  if (clienteSeleccionado == null) {
+    componente.innerHTML = "<p>Primero busque un cliente</p>";
+    return;
+  }
+
+  let monto = recuperarFloat("montoCredito");
+  let plazo = recuperarFloat("plazoCredito");
+
+  let disponible = calcularDisponible(clienteSeleccionado.ingresos, clienteSeleccionado.egresos);
+  let capacidad = calcularCapacidadPago(disponible);
+  let interes = calcularInteresSimple(monto, tasaInteres, plazo);
+  let total = calcularTotalPagar(monto, interes);
+  let cuota = calcularCuotaMensual(total, plazo);
+  let aprobado = aprobarCredito(capacidad, cuota);
+
+  montoCalculado = monto;
+  plazoCalculado = plazo;
+  cuotaCalculada = cuota;
+  creditoAprobado = aprobado;
+
+  let contenido = "";
+  contenido += "<p>Capacidad de pago: " + capacidad + "</p>";
+  contenido += "<p>Total a pagar: " + total + "</p>";
+  contenido += "<p>Cuota mensual: " + cuota + "</p>";
+  if (aprobado == true) {
+    contenido += "<p>Resultado: CREDITO APROBADO</p>";
+  } else {
+    contenido += "<p>Resultado: CREDITO RECHAZADO</p>";
+  }
+  componente.innerHTML = contenido;
+}
