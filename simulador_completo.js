@@ -108,9 +108,12 @@ function buscarClienteCredito() {
   let cedula = recuperaraTexto("buscarCedulaCredito");
   let cliente = buscarCliente(cedula);
   let componente = document.getElementById("datosClienteCredito");
+  let resultado = document.getElementById("resultadoCredito");
+
+  resultado.innerHTML = "";
+  resultado.className = "";
 
   if (cliente != null) {
-    clienteSeleccionado = cliente;
     let contenido = "";
     contenido += "<p>Cédula: " + cliente.cedula + "</p>";
     contenido += "<p>Nombre: " + cliente.nombre + "</p>";
@@ -119,45 +122,45 @@ function buscarClienteCredito() {
     contenido += "<p>Egresos: " + cliente.egresos + "</p>";
     componente.innerHTML = contenido;
   } else {
-    clienteSeleccionado = null;
     componente.innerHTML = "<p>Cliente no encontrado</p>";
   }
 }
 
 function calcularCredito() {
   let componente = document.getElementById("resultadoCredito");
+  let cedula = recuperaraTexto("buscarCedulaCredito");
+  let cliente = buscarCliente(cedula);
 
-  if (clienteSeleccionado == null) {
+  if (cliente == null) {
     componente.className = "";
     componente.innerHTML = "<p>Primero busque un cliente</p>";
-    return;
-  }
-
-  let monto = recuperarFloat("montoCredito");
-  let plazo = recuperarFloat("plazoCredito");
-
-  let disponible = calcularDisponible(clienteSeleccionado.ingresos, clienteSeleccionado.egresos);
-  let capacidad = calcularCapacidadPago(disponible);
-  let interes = calcularInteresSimple(monto, tasaInteres, plazo);
-  let total = calcularTotalPagar(monto, interes);
-  let cuota = calcularCuotaMensual(total, plazo);
-  let aprobado = aprobarCredito(capacidad, cuota);
-
-  montoCalculado = monto;
-  plazoCalculado = plazo;
-  cuotaCalculada = cuota;
-  creditoAprobado = aprobado;
-
-  let contenido = "";
-  contenido += "Capacidad de pago: " + capacidad + "<br>";
-  contenido += "Total a pagar: " + total + "<br>";
-  contenido += "Cuota mensual: " + cuota + "<br>";
-  if (aprobado == true) {
-    contenido += "Resultado: APROBADO";
-    componente.className = "aprobado";
   } else {
-    contenido += "Resultado: RECHAZADO";
-    componente.className = "rechazado";
+    let monto = recuperarFloat("montoCredito");
+    let plazo = recuperarFloat("plazoCredito");
+
+    let disponible = calcularDisponible(cliente.ingresos, cliente.egresos);
+    let capacidad = calcularCapacidadPago(disponible);
+    let interes = calcularInteresSimple(monto, tasaInteres, plazo);
+    let total = calcularTotalPagar(monto, interes);
+    let cuota = calcularCuotaMensual(total, plazo);
+    let aprobado = aprobarCredito(capacidad, cuota);
+
+    montoCalculado = monto;
+    plazoCalculado = plazo;
+    cuotaCalculada = cuota;
+    creditoAprobado = aprobado;
+
+    let contenido = "";
+    contenido += "Capacidad de pago: " + capacidad + "<br>";
+    contenido += "Total a pagar: " + total + "<br>";
+    contenido += "Cuota mensual: " + cuota + "<br>";
+    if (aprobado == true) {
+      contenido += "Resultado: APROBADO";
+      componente.className = "aprobado";
+    } else {
+      contenido += "Resultado: RECHAZADO";
+      componente.className = "rechazado";
+    }
+    componente.innerHTML = contenido;
   }
-  componente.innerHTML = contenido;
 }
